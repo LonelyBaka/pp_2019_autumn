@@ -172,7 +172,7 @@ int sleeping_barber_sequential(int number_of_chairs, int need_to_serve, int* not
             if (used_chair > 0) {
                 barber_status = barber_cutting;
                 prev_time_cutting = MPI_Wtime();
-                cutting = (static_cast<double>(gen()%100)/1000);
+                cutting = (static_cast<double>(gen()%100)/10000);
                 used_chair--;
             } else {
                 barber_status = barber_sleeping;
