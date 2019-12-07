@@ -19,14 +19,13 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
         throw "A1 > B1";
     if (_a2 > _b2)
         throw "A2 > B2";
-    std::cout << "I'm alive!";
     int rank, size;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     if (size < 2)
         return solveTwoVarSequential(_a1, _b1, _a2, _b2, func);
     MPI_Status status;
-    resultTwoVar finalRes;
-    resultTwoVar res;
+    resultTwoVar finalRes = {0, 0, 0};
+    resultTwoVar res  = {0, 0, 0};
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
         std::set<setElemTwoVar> set;
@@ -119,8 +118,8 @@ double(*func)(double x, double y), const double& _eps,
         throw "A1 > B1";
     if (_a2 > _b2)
         throw "A2 > B2";
-    resultTwoVar finalRes;
-    resultTwoVar res;
+    resultTwoVar finalRes  = {0, 0, 0};
+    resultTwoVar res  = {0, 0, 0};
     std::set<setElemTwoVar> set;
     res = solveOneVar(_a2, _b2, _a1, func);
     set.insert(setElemTwoVar(res.x, res.y, res.z));
@@ -179,7 +178,7 @@ const double& _eps, const int& _N_max, const double& _r_par) {
         throw "A > B";
     bool timeToStop = false;
     std::set<setElemOneVar> set;
-    resultTwoVar res;
+    resultTwoVar res  = {0, 0, 0};
     res.x = Xf;
     double M, currM, m, R, currR, newX;
     double funcTmp = func(Xf, _a);
