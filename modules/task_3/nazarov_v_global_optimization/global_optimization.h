@@ -47,7 +47,7 @@ struct resultTwoVar {
 
 
 resultTwoVar solveOneVar(const double& _a, const double& _b, const double& Xf, double(*func)(double x, double y),
-const double& _eps = 0.01, const int& _N_max = 1000, const double& _r_par = 2.0);
+const double& _eps = 0.01, const int& _N_max = 100, const double& _r_par = 2.0);
 
 resultTwoVar solveTwoVar(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
 double(*func)(double x, double y), const double& _eps = 0.01, const int& _N_max = 100, const double& _r_par = 2.0);
