@@ -54,7 +54,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
             iter++;
             auto prevIter = set.begin();
             while (iter != set.end()) {
-                currM = abs((iter->z - prevIter->z) / (iter->x - prevIter->x));
+                currM = std::abs(static_cast<double>((iter->z - prevIter->z) / (iter->x - prevIter->x)));
                 if (currM > M)
                     M = currM;
                 iter++;
@@ -139,7 +139,7 @@ double(*func)(double x, double y), const double& _eps,
         iter++;
         auto prevIter = set.begin();
         while (iter != set.end()) {
-            currM = abs((iter->z - prevIter->z) / (iter->x - prevIter->x));
+            currM = std::abs(static_cast<double>((iter->z - prevIter->z) / (iter->x - prevIter->x)));
             if (currM > M)
                 M = currM;
             iter++;
@@ -200,7 +200,7 @@ const double& _eps, const int& _N_max, const double& _r_par) {
         iter++;
         auto prevIter = set.begin();
         while (iter != set.end()) {
-            currM = abs((iter->y - prevIter->y) / (iter->x - prevIter->x));
+            currM = std::abs(static_cast<double>((iter->y - prevIter->y) / (iter->x - prevIter->x)));
             if (currM > M)
                 M = currM;
             iter++;
