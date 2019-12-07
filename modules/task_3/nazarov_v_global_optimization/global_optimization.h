@@ -2,6 +2,8 @@
 #ifndef MODULES_TASK_3_NAZAROV_V_GLOBAL_OPTIMIZATION_GLOBAL_OPTIMIZATION_H_
 #define MODULES_TASK_3_NAZAROV_V_GLOBAL_OPTIMIZATION_GLOBAL_OPTIMIZATION_H_
 
+#include <cmath>
+
 double f(double x, double y);
 
 class setElemOneVar {
