@@ -8,7 +8,7 @@
 double f(double x, double y) {
     // return std::pow(x, 2) + std::pow(y - 1, 2);
     // return 3*std::pow(x,2) + x*y + 2*std::pow(y,2) - x - 4*y;
-    return std::pow(x,3) + 8*std::pow(y, 3) - 6*x*y + 5;
+    return std::pow(x, 3) + 8*std::pow(y, 3) - 6*x*y + 5;
     // return y*sqrt(x) - 2*std::pow(y,2) - x + 14*y;
     // return std::pow(x, 2) + x * y + std::pow(y, 2) - 4 * std::log(x) - 10 * std::log(y);
 }
@@ -19,7 +19,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
         throw "A1 > B1";
     if (_a2 > _b2)
         throw "A2 > B2";
-    std::cout<<"I'm alive!";
+    std::cout << "I'm alive!";
     int rank, size;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     if (size < 2)
