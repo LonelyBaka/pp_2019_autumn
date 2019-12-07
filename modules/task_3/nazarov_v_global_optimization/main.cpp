@@ -8,6 +8,7 @@ TEST(Global_Optimization_MPI, Test_First_Function) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     double(*fptr)(double, double) = f;
     solveTwoVar(-5, 5, -5, 5, fptr);
+    MPI_Barrier(MPI_COMM_WORLD);
     // if (rank == 0) {
     //     bool equals = true;
     //     double checkX = std::abs(static_cast<double>(0 - res.x));
@@ -22,7 +23,6 @@ TEST(Global_Optimization_MPI, Test_First_Function) {
     //     EXPECT_TRUE(equals);
     // }
     EXPECT_TRUE(true);
-    // MPI_Barrier(MPI_COMM_WORLD);
 }
 
 // TEST(Global_Optimization_MPI, Test_Second_Function) {
