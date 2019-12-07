@@ -6,7 +6,7 @@
 TEST(Global_Optimization_MPI, Test_First_Function) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    // double(*fptr)(double, double) = f;
+    double(*fptr)(double, double) = f;
     // solveTwoVar(-5, 5, -5, 5, fptr);
     // if (rank == 0) {
     //     bool equals = true;
