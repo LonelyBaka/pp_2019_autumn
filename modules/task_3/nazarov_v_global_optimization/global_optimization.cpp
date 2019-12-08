@@ -34,7 +34,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
     if (size < 2)
         return solveTwoVarSequential(_a1, _b1, _a2, _b2, func);
     MPI_Status status;
-    resultTwoVar finalRes;
+    resultTwoVar finalRes = {0, 0, 0};
     resultTwoVar res;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
@@ -139,7 +139,7 @@ double(*func)(double x, double y), const double& _eps,
         throw "A1 > B1";
     if (_a2 > _b2)
         throw "A2 > B2";
-    resultTwoVar finalRes;
+    resultTwoVar finalRes = {0, 0, 0};
     resultTwoVar res;
     std::set<setElemTwoVar> set;
     res = solveOneVar(_a2, _b2, _a1, func);
