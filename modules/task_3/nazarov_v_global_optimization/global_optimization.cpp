@@ -2,6 +2,7 @@
 #include <mpi.h>
 #include <stdexcept>
 #include <set>
+#include <iostream>
 #include <random>
 #include "../../../modules/task_3/nazarov_v_global_optimization/global_optimization.h"
 
@@ -30,8 +31,10 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
     if (rank == 0) {
         std::set<setElemTwoVar> set;
         int k;
-        if ((_a1 - _b1) == 0 || (_a2 - _b2) == 0)
+        if ((_a1 - _b1) <= 0.0001 || (_a2 - _b2) <= 0.0001){
+            std::cout << "it's ok\n";
             k = size + 1;
+        }
         else
             k = size;
         double segmentLen = (_b1 - _a1) / (k - 1);
