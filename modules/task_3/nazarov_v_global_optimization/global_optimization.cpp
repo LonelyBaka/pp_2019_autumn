@@ -29,15 +29,20 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
         std::set<setElemTwoVar> set;
-        double segmentLen = (_b1 - _a1) / (size - 1);
-        for (int i = 0; i < size - 1; ++i) {
+        int k;
+        if ((_a1 - _b1) == 0 || (_a2 - _b2) == 0)
+            k = size * 2;
+        else
+            k = size;
+        double segmentLen = (_b1 - _a1) / (k - 1);
+        for (int i = 0; i < k - 1; ++i) {
             double Xf = _a1 + i * segmentLen;
             MPI_Send(&Xf, 1, MPI_DOUBLE, i+1, 1, MPI_COMM_WORLD);
         }
         res = solveOneVar(_a2, _b2, _b1, func);
         set.insert(setElemTwoVar(res.x, res.y, res.z));
         finalRes = res;
-        for (int i = 0; i < size - 1; ++i) {
+        for (int i = 0; i < k - 1; ++i) {
             MPI_Recv(&res, 3, MPI_DOUBLE, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);
             if (res.z < finalRes.z)
                 finalRes = res;
@@ -45,7 +50,6 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
         }
         std::set<setElemR> setR;
         double M, currM, m, currR, newX;
-        int k = size;
         bool terminate = false;
         while (!terminate && k < _N_max) {
             setR.clear();
