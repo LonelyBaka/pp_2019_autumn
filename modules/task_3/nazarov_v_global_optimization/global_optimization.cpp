@@ -2,16 +2,25 @@
 #include <mpi.h>
 #include <stdexcept>
 #include <set>
-#include <iostream>
 #include <random>
 #include "../../../modules/task_3/nazarov_v_global_optimization/global_optimization.h"
 
-double f(double x, double y) {
+double f1(double x, double y) {
     return std::pow(x, 2) + std::pow(y - 1, 2);
-    // return 3*std::pow(x,2) + x*y + 2*std::pow(y,2) - x - 4*y;
-    // return std::pow(x,3) + 8*std::pow(y,3) - 6*x*y + 5;
-    // return y*sqrt(x) - 2*std::pow(y,2) - x + 14*y;
-    // return std::pow(x, 2) + x * y + std::pow(y, 2) - 4 * std::log(x) - 10 * std::log(y);
+}
+
+double f2(double x, double y) {
+    return 3*std::pow(x,2) + x*y + 2*std::pow(y,2) - x - 4*y;
+}
+
+double f3(double x, double y) {
+    return std::pow(x,3) + 8*std::pow(y,3) - 6*x*y + 5;
+}
+double f4(double x, double y) {
+    return y*sqrt(x) - 2*std::pow(y,2) - x + 14*y;
+}
+double f5(double x, double y) {
+    return std::pow(x, 2) + x * y + std::pow(y, 2) - 4 * std::log(x) - 10 * std::log(y);
 }
 
 resultTwoVar solveTwoVar(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
@@ -31,8 +40,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
     if (rank == 0) {
         std::set<setElemTwoVar> set;
         int k;
-        if ((_a1 - _b1) <= 0.0001 || (_a2 - _b2) <= 0.0001) {
-            std::cout << "it's ok\n";
+        if (std::abs(_a1 - _b1) <= 0.0001 || std::abs(_a2 - _b2) <= 0.0001) {
             k = size + 1;
         } else {
             k = size;
