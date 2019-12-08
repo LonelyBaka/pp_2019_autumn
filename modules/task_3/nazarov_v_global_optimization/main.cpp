@@ -18,12 +18,7 @@ TEST(Global_Optimization_MPI, Test_First_Function) {
         cur = MPI_Wtime();
         std::cout << "Final result sequential, time to solve: " << cur-prev << std::endl;
         std::cout << "x: " << resEq.x << " y: " << resEq.y << " z: " << resEq.z << std::endl;
-        bool equals = false;
-        if (std::abs(static_cast<double>(resEq.x - res.x)) <= 0.01)
-            if (std::abs(static_cast<double>(resEq.y - res.y)) <= 0.01)
-                if (std::abs(static_cast<double>(resEq.z - res.z)) <= 0.01)
-                    equals = true;
-        ASSERT_TRUE(equals);
+        ASSERT_TRUE(compareResults(res, resEq));
     }
 }
 
