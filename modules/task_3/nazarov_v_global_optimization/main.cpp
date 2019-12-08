@@ -1,4 +1,6 @@
 // Copyright 2019 Nazarov Vladislav
+#define _USE_MATH_DEFINES
+
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./global_optimization.h"

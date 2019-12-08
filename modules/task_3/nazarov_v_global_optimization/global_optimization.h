@@ -59,10 +59,10 @@ const double& _eps = 0.1, const int& _N_max = 100, const double& _r_par = 2.0);
 
 resultTwoVar solveTwoVar(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
 double(*func)(double x, double y), const double& _eps = 0.1, const int& _Nmax = 100, const double& _epsOneVar = 0.1,
-const double& _NmaxOneVar = 100, const double& _r_par = 2.0);
+const int& _NmaxOneVar = 100, const double& _r_par = 2.0);
 
 resultTwoVar solveTwoVarSequential(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
 double(*func)(double x, double y), const double& _eps = 0.1, const int& _Nmax = 100, const double& _epsOneVar = 0.1,
-const double& _NmaxOneVar = 100, const double& _r_par = 2.0);
+const int& _NmaxOneVar = 100, const double& _r_par = 2.0);
 
 #endif  // MODULES_TASK_3_NAZAROV_V_GLOBAL_OPTIMIZATION_GLOBAL_OPTIMIZATION_H_

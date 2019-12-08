@@ -29,7 +29,7 @@ double f6(double x, double y) {
 
 resultTwoVar solveTwoVar(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
 double(*func)(double x, double y), const double& _eps, const int& _Nmax, const double& _epsOneVar,
-const double& _NmaxOneVar, const double& _r_par) {
+const int& _NmaxOneVar, const double& _r_par) {
     if (_a1 > _b1)
         throw "A1 > B1";
     if (_a2 > _b2)
@@ -139,7 +139,7 @@ const double& _NmaxOneVar, const double& _r_par) {
 
 resultTwoVar solveTwoVarSequential(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
 double(*func)(double x, double y), const double& _eps, const int& _Nmax, const double& _epsOneVar,
-const double& _NmaxOneVar, const double& _r_par) {
+const int& _NmaxOneVar, const double& _r_par) {
     if (_a1 > _b1)
         throw "A1 > B1";
     if (_a2 > _b2)
