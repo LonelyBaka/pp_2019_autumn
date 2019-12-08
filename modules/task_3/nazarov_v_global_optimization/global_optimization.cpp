@@ -6,25 +6,30 @@
 #include "../../../modules/task_3/nazarov_v_global_optimization/global_optimization.h"
 
 double f1(double x, double y) {
-    return std::pow(x, 2) + std::pow(y - 1, 2);
+    return std::pow(x, 2) + std::pow(y - 1, 2);  // 0 0 0
 }
 
 double f2(double x, double y) {
-    return 3*std::pow(x, 2) + x*y + 2*std::pow(y, 2) - x - 4*y;
+    return 4 + std::pow(std::pow(std::pow(x, 2) + std::pow(y, 2), 2), 1.0/3);  // 0 0 4
 }
 
-double f3(double x, double y) {
+double f3(double x, double y) {  // 1 1/2 4
     return std::pow(x, 3) + 8*std::pow(y, 3) - 6*x*y + 5;
 }
-double f4(double x, double y) {
+double f4(double x, double y) {  // no min
     return y*sqrt(x) - 2*std::pow(y, 2) - x + 14*y;
 }
 double f5(double x, double y) {
-    return std::pow(x, 2) + x * y + std::pow(y, 2) - 4 * std::log(x) - 10 * std::log(y);
+    return x + 4*y - 6 - 2*log(x*y) - 3*log(y);  // 2 1.25 z = -2*ln(5/2)-3*ln(5/4)+1 = -1.5
+}
+
+double f6(double x, double y) {
+    return 2*sin(x) + cos(y);  // 3*pi/2 pi -3
 }
 
 resultTwoVar solveTwoVar(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
-double(*func)(double x, double y), const double& _eps, const int& _N_max, const double& _r_par) {
+double(*func)(double x, double y), const double& _eps, const int& _Nmax, const double& _epsOneVar,
+const double& _NmaxOneVar, const double& _r_par) {
     if (_a1 > _b1)
         throw "A1 > B1";
     if (_a2 > _b2)
@@ -50,11 +55,11 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
             double Xf = _a1 + i * segmentLen;
             MPI_Send(&Xf, 1, MPI_DOUBLE, i+1, 1, MPI_COMM_WORLD);
         }
-        res = solveOneVar(_a2, _b2, _b1, func);
+        res = solveOneVar(_a2, _b2, _b1, func, _epsOneVar);
         set.insert(setElemTwoVar(res.x, res.y, res.z));
         finalRes = res;
         if (k != size) {
-            res = solveOneVar(_a2, _b2, _a1 + segmentLen * size, func);
+            res = solveOneVar(_a2, _b2, _a1 + segmentLen * size, func, _epsOneVar);
             set.insert(setElemTwoVar(res.x, res.y, res.z));
             if (res.z < finalRes.z)
                 finalRes = res;
@@ -68,7 +73,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
         std::set<setElemR> setR;
         double M, currM, m, currR, newX;
         bool terminate = false;
-        while (!terminate && k < _N_max) {
+        while (!terminate && k < _Nmax) {
             setR.clear();
             M = -1;
             auto iter = set.begin();
@@ -124,7 +129,7 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
             if (mes == _eps*0.001) {
                 terminate = true;
             } else {
-                res = solveOneVar(_a2, _b2, mes, func);
+                res = solveOneVar(_a2, _b2, mes, func, _epsOneVar, _NmaxOneVar);
                 MPI_Send(&res, 3, MPI_DOUBLE, 0, 1, MPI_COMM_WORLD);
             }
         }
@@ -133,8 +138,8 @@ double(*func)(double x, double y), const double& _eps, const int& _N_max, const 
 }
 
 resultTwoVar solveTwoVarSequential(const double& _a1, const double& _b1, const double& _a2, const double& _b2,
-double(*func)(double x, double y), const double& _eps,
-    const int& _N_max, const double& _r_par) {
+double(*func)(double x, double y), const double& _eps, const int& _Nmax, const double& _epsOneVar,
+const double& _NmaxOneVar, const double& _r_par) {
     if (_a1 > _b1)
         throw "A1 > B1";
     if (_a2 > _b2)
@@ -142,10 +147,10 @@ double(*func)(double x, double y), const double& _eps,
     resultTwoVar finalRes = {0, 0, 0};
     resultTwoVar res;
     std::set<setElemTwoVar> set;
-    res = solveOneVar(_a2, _b2, _a1, func);
+    res = solveOneVar(_a2, _b2, _a1, func, _epsOneVar, _NmaxOneVar);
     set.insert(setElemTwoVar(res.x, res.y, res.z));
     finalRes = res;
-    res = solveOneVar(_a2, _b2, _b1, func);
+    res = solveOneVar(_a2, _b2, _b1, func, _epsOneVar, _NmaxOneVar);
     set.insert(setElemTwoVar(res.x, res.y, res.z));
     if (res.z < finalRes.z)
         finalRes = res;
@@ -153,7 +158,7 @@ double(*func)(double x, double y), const double& _eps,
     int k = 2;
     std::set<setElemR> setR;
     bool terminate = false;
-    while (!terminate && k < _N_max) {
+    while (!terminate && k < _Nmax) {
         setR.clear();
         M = -1;
         auto iter = set.begin();
@@ -183,7 +188,7 @@ double(*func)(double x, double y), const double& _eps,
         k++;
         auto Riter = setR.begin();
         newX = (0.5)*(Riter->x + Riter->xPrev) - ((Riter->z - Riter->zPrev) / (2 * m));
-        res = solveOneVar(_a2, _b2, newX, func);
+        res = solveOneVar(_a2, _b2, newX, func, _epsOneVar, _NmaxOneVar);
         set.insert(setElemTwoVar(res.x, res.y, res.z));
         if (res.z < finalRes.z)
             finalRes = res;
