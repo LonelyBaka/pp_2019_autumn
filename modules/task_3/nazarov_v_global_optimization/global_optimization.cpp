@@ -10,14 +10,14 @@ double f1(double x, double y) {
 }
 
 double f2(double x, double y) {
-    return 3*std::pow(x,2) + x*y + 2*std::pow(y,2) - x - 4*y;
+    return 3*std::pow(x, 2) + x*y + 2*std::pow(y, 2) - x - 4*y;
 }
 
 double f3(double x, double y) {
-    return std::pow(x,3) + 8*std::pow(y,3) - 6*x*y + 5;
+    return std::pow(x, 3) + 8*std::pow(y, 3) - 6*x*y + 5;
 }
 double f4(double x, double y) {
-    return y*sqrt(x) - 2*std::pow(y,2) - x + 14*y;
+    return y*sqrt(x) - 2*std::pow(y, 2) - x + 14*y;
 }
 double f5(double x, double y) {
     return std::pow(x, 2) + x * y + std::pow(y, 2) - 4 * std::log(x) - 10 * std::log(y);
