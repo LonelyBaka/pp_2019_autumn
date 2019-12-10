@@ -2,6 +2,7 @@
 #include <mpi.h>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 #include "../../../modules/task_3/savosina_a_simpson_method/simpson_method.h"
 
 double calculateIntegral(const std::vector<std::pair<double, double>>& _scope, const size_t& _n,
